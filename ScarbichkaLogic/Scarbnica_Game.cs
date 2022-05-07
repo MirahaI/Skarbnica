@@ -13,7 +13,7 @@ namespace ScarbnichkaLogic
             AskingSuite,
             AskingFigure,
             AskingNumber,
-            PickingUp
+            //PickingUp
             //Attack,
             //Defending,
             //PickingUp
@@ -26,7 +26,7 @@ namespace ScarbnichkaLogic
         public CardSet Deck { get; set; }
         
         //public CardSet Table { get; set; }
-        public CardSet Bin { get; set; }
+        //public CardSet Bin { get; set; }
         
         //public Card Trump { get; set; }
 
@@ -43,8 +43,8 @@ namespace ScarbnichkaLogic
                         return $"{ActivePlayer.Name} is asking about Figure {beenasked.Name}"; //$"{defender.Name} is defending"; 
                     case Mode.AskingNumber:
                         return $"{ActivePlayer.Name} is asking about Number {beenasked.Name}"; //$"{defender.Name} is giving up. {mover.Name} can pick up {countToTurn} cards.";
-                    case Mode.PickingUp:
-                        return $"{ActivePlayer.Name} was wrong and picking up a card!";
+                    //case Mode.PickingUp:
+                    //    return $"{ActivePlayer.Name} was wrong and picking up a card!";
                     default:
                         throw new Exception("We dont know that mode");
                 }

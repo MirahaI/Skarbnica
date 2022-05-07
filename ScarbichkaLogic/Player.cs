@@ -11,6 +11,7 @@ namespace ScarbnichkaLogic
         {
             Name = name;
             Hand = hand;
+            
         }
 
         public Player(string name) : this(name, new CardSet())
@@ -19,6 +20,8 @@ namespace ScarbnichkaLogic
 
         public string Name { get; set; }
         public CardSet Hand { get; set; }
+
+        //num of box
         public bool IsInGame { get; set; } = true;
     }
 }
