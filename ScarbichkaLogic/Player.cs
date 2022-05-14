@@ -7,21 +7,17 @@ namespace ScarbnichkaLogic
 {
     public class Player
     {
-        public Player(string name, CardSet hand)
+
+        public Player(string name, CardSet hand, int numofBox)
         {
             Name = name;
             Hand = hand;
-            
-        }
-
-        public Player(string name) : this(name, new CardSet())
-        {
+            NumofBox = numofBox;
         }
 
         public string Name { get; set; }
         public CardSet Hand { get; set; }
-
-        //num of box
+        public int NumofBox { get; set; }
         public bool IsInGame { get; set; } = true;
     }
 }
