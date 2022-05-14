@@ -43,6 +43,7 @@ namespace ScarbnichkaLogic
         private Player asker;
         private Player beenasked;
         private Player activePlayer;
+        private CardFigure acttivveFigure;
 
         public Player ActivePlayer { get; set; }
 
@@ -89,9 +90,11 @@ namespace ScarbnichkaLogic
             asker = WhoFirst();
             beenasked = NextPlayer(asker);
 
-            ActivePlayer = asker;
+            ActivePlayer = asker; // ActivePlayer все-равно, что аскер
             ShowState();
         }
+
+    
 
         public void Turn(Card cardForTurn)
         {
@@ -141,15 +144,21 @@ namespace ScarbnichkaLogic
             throw new NotImplementedException();
         }
 
-        public bool CheckIfFigureFits(string answerfigure)
+        public bool CheckIfFigureFits(CardFigure fig)  
         {
-            bool checkfig = false;
-            foreach (var c in beenasked.Hand)
-            {
-                if (answerfigure == c.Figure.ToString())
-                    checkfig = true;
-            }
-            return checkfig;
+            bool res =  beenasked.Hand.FirstOrDefault(c => c.Figure == fig) != default;
+
+            if (res) acttivveFigure = fig;
+            return res;
+
+
+            //bool checkfig = false;
+            //foreach (var c in beenasked.Hand)
+            //{
+            //    if (answerfigure == c.Figure.ToString())
+            //        checkfig = true;
+            //}
+            //return checkfig;
         }
         //public bool CheckIfNumberFits(int answernumber, string checkfig)
         //{
