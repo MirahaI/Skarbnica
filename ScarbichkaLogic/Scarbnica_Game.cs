@@ -10,7 +10,7 @@ namespace ScarbnichkaLogic
         enum Mode
         {
             AskingFigure,
-            //AskingNumber,
+            AskingNumber,
             AskingSuite,
         }
 
@@ -26,11 +26,11 @@ namespace ScarbnichkaLogic
                 switch (mode)
                 {
                     case Mode.AskingFigure:
-                        return $"{ActivePlayer.Name} is asking about Figure {beenasked.Name}";  
-                    //case Mode.AskingNumber:
-                    //    return $"{ActivePlayer.Name} is asking about Number {beenasked.Name}";
+                        return $"{asker.Name} is asking about Figure {beenasked.Name}";  
+                    case Mode.AskingNumber:
+                        return $"{asker.Name} is asking about Number {beenasked.Name}";
                     case Mode.AskingSuite:
-                        return $"{ActivePlayer.Name} is asking about Suite {beenasked.Name}";
+                        return $"{asker.Name} is asking about Suite {beenasked.Name}";
                     default:
                         throw new Exception("We dont know that mode");
                 }
@@ -39,11 +39,13 @@ namespace ScarbnichkaLogic
 
         public bool IsGameOver { get; set; }
         private Mode mode;
+        private Mode lastmode;
         private Action ShowState;
         private Player asker;
         private Player beenasked;
-        private Player activePlayer;
-        private CardFigure acttivveFigure;
+        private CardFigure activeFigure;
+        private int activeNumber;
+        private CardSuite activeSuite;
 
         public Player ActivePlayer { get; set; }
 
@@ -59,8 +61,8 @@ namespace ScarbnichkaLogic
         {
             if (mode == Mode.AskingFigure)
                 return "Asking about Figure";
-            //if (mode == Mode.AskingNumber)
-            //    return "Asking about Number";
+            if (mode == Mode.AskingNumber)
+                return "Asking about Number";
             return "Asking about Suite";
         }
 
@@ -89,8 +91,6 @@ namespace ScarbnichkaLogic
             mode = Mode.AskingSuite;
             asker = WhoFirst();
             beenasked = NextPlayer(asker);
-
-            ActivePlayer = asker; // ActivePlayer все-равно, что аскер
             ShowState();
         }
 
@@ -100,7 +100,6 @@ namespace ScarbnichkaLogic
         {
             if (Impossible(cardForTurn)) return;
 
-            //Table.Add(ActivePlayer.Hand.Pull(cardForTurn));
             ResultInfo = "";
             SwitchMode();
             ShowState();
@@ -114,9 +113,9 @@ namespace ScarbnichkaLogic
                 case Mode.AskingFigure:
                     SwitchAfterAskingFigure();
                     break;
-                //case Mode.AskingNumber:
-                //    SwitchAfterAskingNumber();
-                //    break;
+                case Mode.AskingNumber:
+                    SwitchAfterAskingNumber();
+                    break;
                 case Mode.AskingSuite:
                     SwitchAfterAskingSuite();
                     break;
@@ -127,6 +126,7 @@ namespace ScarbnichkaLogic
         private void TurnOnAskingFigure()
         {
             mode = Mode.AskingFigure;
+            //if 
         }
 
         private void SwitchAfterAskingFigure()
@@ -134,10 +134,10 @@ namespace ScarbnichkaLogic
             throw new NotImplementedException();
         }
 
-        //private void SwitchAfterAskingNumber()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private void SwitchAfterAskingNumber()
+        {
+            throw new NotImplementedException();
+        }
 
         private void SwitchAfterAskingSuite()
         {
@@ -148,41 +148,39 @@ namespace ScarbnichkaLogic
         {
             bool res =  beenasked.Hand.FirstOrDefault(c => c.Figure == fig) != default;
 
-            if (res) acttivveFigure = fig;
+            if (res) activeFigure = fig;
             return res;
-
-
-            //bool checkfig = false;
-            //foreach (var c in beenasked.Hand)
-            //{
-            //    if (answerfigure == c.Figure.ToString())
-            //        checkfig = true;
-            //}
-            //return checkfig;
         }
-        //public bool CheckIfNumberFits(int answernumber, string checkfig)
-        //{
-        //    bool checknum = false;
-        //    int needfigure = 0;
-        //    foreach (var c in beenasked.Hand)
-        //    {
-        //        if (checkfig == c.Figure.ToString())
-        //            needfigure++;
-        //    }
-        //    if (answernumber == needfigure)
-        //    {
-        //        checknum = true;
-        //    }
-        //    return checknum;
-        //}
-        public bool CheckIfSuitesFits(List<string> answersuite)
+        public bool CheckIfNumberFits(int answernumber, CardFigure fig)
+        {
+            bool checknum = false;
+            int needfigure = 0;
+            foreach (var c in beenasked.Hand)
+            {
+                if (fig == c.Figure)
+                    needfigure++;
+            }
+            if (answernumber == needfigure)
+            {
+                checknum = true;
+            }
+            activeNumber = answernumber;
+            return checknum;
+        }
+        public bool CheckIfSuitesFits(CardFigure figure, List<CardSuite> answersuite)
         {
             bool checksuite = false;
+            List<Card> withfigfits = new List<Card>();
+            foreach (var card in beenasked.Hand)
+            {
+                if (card.Figure == figure)
+                    withfigfits.Add(card);
+            }
             foreach (var suite in answersuite)
             {
-                foreach (var c in beenasked.Hand)
+                foreach (var c in withfigfits)
                 {
-                    if (suite == c.Figure.ToString())
+                    if (suite == c.Suite)
                         checksuite = true;
                     checksuite = false;
                 }
@@ -190,24 +188,33 @@ namespace ScarbnichkaLogic
             return checksuite;
         }
 
-        public List<Card> CardSetForAsker(string answerfigure, List<string> answersuite)
+        public void CardSetForAsker(CardFigure fig, List<CardSuite> answersuite, Player asker, Player beenasked)
         {
-            List<Card> cardsthathasbeenguessedbyfigure = new List<Card>();
-            List<Card> endcardset = new List<Card>();
+            List<Card> demopull = new List<Card>();
+            List<Card> pull = new List<Card>();
             foreach (var c in beenasked.Hand)
             {
-                if (answerfigure == c.Figure.ToString())
-                    cardsthathasbeenguessedbyfigure.Add(c);
+                if (fig == c.Figure)
+                    demopull.Add(c);
             }
             foreach (var suite in answersuite)
             {
-                foreach (var c in cardsthathasbeenguessedbyfigure)
+                foreach (var c in demopull)
                 {
-                    if (suite == c.Suite.ToString())
-                        endcardset.Add(c);
+                    if (suite == c.Suite)
+                        pull.Add(c);
                 }
             }
-            return endcardset;
+            asker.Hand.Add(pull);
+            beenasked.Hand.RemoveCardSet(pull);
+        }
+
+        private void PickUpAfterWrongAnswer()
+        {
+            List<Card> Pull = new List<Card>();
+            asker.Hand.Add(Deck[Deck.Count - 1]);
+            Deck.RemoveCard(Deck[Deck.Count - 1]);
+            NextTurn();
         }
 
         private Player NextPlayer(Player player, Predicate<Player> except, Player stopPlayer = null)
@@ -218,51 +225,63 @@ namespace ScarbnichkaLogic
             return applicant;
         }
 
-        private void PickUpAfterWrongAnswer()
-        {
-            //defender.Hand.Add(Table.Deal(Table.Count));
-            //ResultInfo = $" {defender.Name} picked up ";
-            NextTurn();
-        }
-
-        public void GiveUp()
-        {
-            //mode = Mode.PickingUp;
-            //if (countToTurn == 0) PickUp();
-            //ActivateMover();
-            //ShowState();
-        }
-
         private void NextTurn()
         {
-            //CardDraw();
-            //CheckWinner();
-            //if (IsGameOver) return;
-            //if (mode == Mode.PickingUp)
-            //    attacker = NextPlayer(defender);
-            //else
-            //    attacker = defender.IsInGame ? defender : NextPlayer(attacker);
-            //defender = NextPlayer(attacker);
-            //mover = attacker;
-            //firstPasser = null;
+            CheckBox();
+            ifDeckemptyandHandsempty();
+            if (IsGameOver) return;
+            CheckWinner();
 
-            //countToTurn = Math.Min(6, defender.Hand.Count);
-            //TurnAttackMode();
+            if (lastmode != Mode.AskingSuite)
+            {
+                asker = beenasked;
+                beenasked = NextPlayer(asker);
+            }
+
+            TurnOnAskingFigure();
         }
 
         private void CheckWinner()
         {
-            int countInGame = Players.Count(p => p.IsInGame);
-            if (countInGame == 1)
+            Player winner = Players[0];
+            foreach (var p in Players)
             {
-                IsGameOver = true;
-                ResultInfo = $"{(Players.FirstOrDefault(p => p.IsInGame)).Name} has been defeated";
+                if (p.NumofBox > winner.NumofBox)
+                {
+                    winner = p;
+                    ResultInfo = $"{winner.Name} has collected the most boxes!";
+                }
+                if (p.NumofBox == winner.NumofBox)
+                {
+                    ResultInfo = $"There is a draw";
+                }
             }
-            
-            if (countInGame == 0)
+        }
+
+        private bool ifDeckemptyandHandsempty()
+        {
+            bool emptyhands = false;
+            bool emptydeck = false;
+            foreach (var p in Players)
             {
+                if (p.Hand.Count == 0)
+                    emptyhands = true;
+            }
+            if (Deck.Count == 0)
+                emptydeck = true;
+            if (emptydeck == true && emptyhands == true)
                 IsGameOver = true;
-                ResultInfo = "There is a draw";
+            return IsGameOver;
+        }
+
+        private void CheckBox()
+        {
+            foreach (var p in Players)
+            {
+                for (int i = 0; i < p.Hand.Count - 1; i++)
+                {
+                    //?
+                }
             }
         }
 
@@ -270,10 +289,9 @@ namespace ScarbnichkaLogic
         {
             return IsGameOver ||
                 (mode == Mode.AskingFigure && ActivePlayer == beenasked) ||
-                //(mode == Mode.AskingNumber && ActivePlayer == beenasked) ||
+                (mode == Mode.AskingNumber && ActivePlayer == beenasked) ||
                 (mode == Mode.AskingSuite && ActivePlayer == beenasked) ||
                 (ActivePlayer == beenasked);
-                //|| (mode == ) ||
         }
 
         private Player NextPlayer(Player player)
@@ -285,7 +303,7 @@ namespace ScarbnichkaLogic
 
         private Player WhoFirst()
         {
-            Player active = Players[random.Next(0, 3)];
+            Player active = Players[random.Next(0, Players.Count - 1)];
             return active;
         }
     }

@@ -36,7 +36,6 @@ namespace CardsModel
                 throw new Exception("The number of card was out of range");
 
             Card card = Cards[number];
-            //Cards.RemoveAt(number);
             RemoveCard(card);
             return card;
         }
@@ -85,6 +84,17 @@ namespace CardsModel
         public virtual void RemoveCard(Card card)
         {
             Cards.Remove(card);
+        }
+        public void RemoveCardSet(List<Card> cards)
+        {
+            foreach (var c in Cards)
+            {
+                foreach (var c1 in cards)
+                {
+                    if (c == c1)
+                        Cards.Remove(c1);
+                }
+            }
         }
         public void RemoveCard(int n)
         {
