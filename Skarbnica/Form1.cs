@@ -36,5 +36,11 @@ namespace Skarbnica
         {
 
         }
+
+        private void bSix_Click_1(object sender, EventArgs e)
+        {
+            var b = (Button)sender;
+            //распаковать сендер и вызвать нужный метод в логике
+        }
     }
 }

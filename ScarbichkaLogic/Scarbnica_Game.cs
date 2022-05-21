@@ -106,58 +106,32 @@ namespace ScarbnichkaLogic
 
         }
 
-        private void SwitchMode()
-        {
-            switch (mode)
-            {
-                case Mode.AskingFigure:
-                    SwitchAfterAskingFigure();
-                    break;
-                case Mode.AskingNumber:
-                    SwitchAfterAskingNumber();
-                    break;
-                case Mode.AskingSuite:
-                    SwitchAfterAskingSuite();
-                    break;
-                default:
-                    throw new Exception("Unregistrated mode");
-            }
-        }
         private void TurnOnAskingFigure()
         {
             mode = Mode.AskingFigure;
             //if 
         }
 
-        private void SwitchAfterAskingFigure()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SwitchAfterAskingNumber()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SwitchAfterAskingSuite()
-        {
-            throw new NotImplementedException();
-        }
 
         public bool CheckIfFigureFits(CardFigure fig)  
         {
             bool res =  beenasked.Hand.FirstOrDefault(c => c.Figure == fig) != default;
 
-            if (res) activeFigure = fig;
+            if (res)
+            {
+                activeFigure = fig;
+                mode = Mode.AskingNumber;
+                NextTurn();
+            }
             return res;
         }
-        public bool CheckIfNumberFits(int answernumber, CardFigure fig)
+        public bool CheckIfNumberFits(int answernumber)
         {
             bool checknum = false;
             int needfigure = 0;
             foreach (var c in beenasked.Hand)
             {
-                if (fig == c.Figure)
+                if (activeFigure == c.Figure)
                     needfigure++;
             }
             if (answernumber == needfigure)
@@ -167,46 +141,27 @@ namespace ScarbnichkaLogic
             activeNumber = answernumber;
             return checknum;
         }
-        public bool CheckIfSuitesFits(CardFigure figure, List<CardSuite> answersuite)
+        public bool CheckIfSuitesFits(List<CardSuite> answersuite)
         {
-            bool checksuite = false;
-            List<Card> withfigfits = new List<Card>();
-            foreach (var card in beenasked.Hand)
-            {
-                if (card.Figure == figure)
-                    withfigfits.Add(card);
-            }
             foreach (var suite in answersuite)
             {
-                foreach (var c in withfigfits)
-                {
-                    if (suite == c.Suite)
-                        checksuite = true;
-                    checksuite = false;
-                }
+                if (beenasked.Hand.FirstOrDefault(c => c.Suite == suite && c.Figure == activeFigure) == default)
+                    return false;
             }
-            return checksuite;
+           
+            return true;
         }
 
-        public void CardSetForAsker(CardFigure fig, List<CardSuite> answersuite, Player asker, Player beenasked)
+        public void CardSetForAsker(Player asker, Player beenasked)
         {
-            List<Card> demopull = new List<Card>();
             List<Card> pull = new List<Card>();
             foreach (var c in beenasked.Hand)
             {
-                if (fig == c.Figure)
-                    demopull.Add(c);
+                if (activeFigure == c.Figure)
+                    pull.Add(beenasked.Hand.Pull(c));
             }
-            foreach (var suite in answersuite)
-            {
-                foreach (var c in demopull)
-                {
-                    if (suite == c.Suite)
-                        pull.Add(c);
-                }
-            }
+
             asker.Hand.Add(pull);
-            beenasked.Hand.RemoveCardSet(pull);
         }
 
         private void PickUpAfterWrongAnswer()
@@ -276,13 +231,7 @@ namespace ScarbnichkaLogic
 
         private void CheckBox()
         {
-            foreach (var p in Players)
-            {
-                for (int i = 0; i < p.Hand.Count - 1; i++)
-                {
-                    //?
-                }
-            }
+            //перебрать фигуры и игроков, для каждой посчитать количество у игрока. Если 4 выбрасываем эти фигуры
         }
 
         private bool Impossible(Card cardForTurn)
