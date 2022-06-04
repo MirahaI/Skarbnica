@@ -55,7 +55,7 @@
             this.checkHeart = new System.Windows.Forms.CheckBox();
             this.checkClub = new System.Windows.Forms.CheckBox();
             this.checkDiamond = new System.Windows.Forms.CheckBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlNumber = new System.Windows.Forms.Panel();
             this.bfour = new System.Windows.Forms.Button();
             this.bthree = new System.Windows.Forms.Button();
             this.btwo = new System.Windows.Forms.Button();
@@ -63,13 +63,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnlFigure.SuspendLayout();
             this.pnlSuite.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pnlNumber.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl3
             // 
             this.pnl3.Location = new System.Drawing.Point(16, 15);
-            this.pnl3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnl3.Margin = new System.Windows.Forms.Padding(4);
             this.pnl3.Name = "pnl3";
             this.pnl3.Size = new System.Drawing.Size(443, 123);
             this.pnl3.TabIndex = 0;
@@ -77,7 +77,7 @@
             // pnl1
             // 
             this.pnl1.Location = new System.Drawing.Point(16, 416);
-            this.pnl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnl1.Margin = new System.Windows.Forms.Padding(4);
             this.pnl1.Name = "pnl1";
             this.pnl1.Size = new System.Drawing.Size(443, 123);
             this.pnl1.TabIndex = 1;
@@ -85,7 +85,7 @@
             // pnl4
             // 
             this.pnl4.Location = new System.Drawing.Point(608, 15);
-            this.pnl4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnl4.Margin = new System.Windows.Forms.Padding(4);
             this.pnl4.Name = "pnl4";
             this.pnl4.Size = new System.Drawing.Size(443, 123);
             this.pnl4.TabIndex = 2;
@@ -93,7 +93,7 @@
             // pnl2
             // 
             this.pnl2.Location = new System.Drawing.Point(608, 416);
-            this.pnl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnl2.Margin = new System.Windows.Forms.Padding(4);
             this.pnl2.Name = "pnl2";
             this.pnl2.Size = new System.Drawing.Size(443, 123);
             this.pnl2.TabIndex = 3;
@@ -101,7 +101,7 @@
             // pnlDeck
             // 
             this.pnlDeck.Location = new System.Drawing.Point(21, 213);
-            this.pnlDeck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlDeck.Margin = new System.Windows.Forms.Padding(4);
             this.pnlDeck.Name = "pnlDeck";
             this.pnlDeck.Size = new System.Drawing.Size(131, 123);
             this.pnlDeck.TabIndex = 4;
@@ -131,7 +131,7 @@
             // bSix
             // 
             this.bSix.Location = new System.Drawing.Point(4, 42);
-            this.bSix.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bSix.Margin = new System.Windows.Forms.Padding(4);
             this.bSix.Name = "bSix";
             this.bSix.Size = new System.Drawing.Size(100, 28);
             this.bSix.TabIndex = 11;
@@ -142,7 +142,7 @@
             // bSeven
             // 
             this.bSeven.Location = new System.Drawing.Point(112, 42);
-            this.bSeven.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bSeven.Margin = new System.Windows.Forms.Padding(4);
             this.bSeven.Name = "bSeven";
             this.bSeven.Size = new System.Drawing.Size(100, 28);
             this.bSeven.TabIndex = 12;
@@ -153,7 +153,7 @@
             // bEight
             // 
             this.bEight.Location = new System.Drawing.Point(4, 78);
-            this.bEight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bEight.Margin = new System.Windows.Forms.Padding(4);
             this.bEight.Name = "bEight";
             this.bEight.Size = new System.Drawing.Size(100, 28);
             this.bEight.TabIndex = 13;
@@ -164,7 +164,7 @@
             // bNine
             // 
             this.bNine.Location = new System.Drawing.Point(112, 78);
-            this.bNine.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bNine.Margin = new System.Windows.Forms.Padding(4);
             this.bNine.Name = "bNine";
             this.bNine.Size = new System.Drawing.Size(100, 28);
             this.bNine.TabIndex = 14;
@@ -175,7 +175,7 @@
             // bTen
             // 
             this.bTen.Location = new System.Drawing.Point(4, 113);
-            this.bTen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bTen.Margin = new System.Windows.Forms.Padding(4);
             this.bTen.Name = "bTen";
             this.bTen.Size = new System.Drawing.Size(100, 28);
             this.bTen.TabIndex = 15;
@@ -186,7 +186,7 @@
             // bJack
             // 
             this.bJack.Location = new System.Drawing.Point(112, 113);
-            this.bJack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bJack.Margin = new System.Windows.Forms.Padding(4);
             this.bJack.Name = "bJack";
             this.bJack.Size = new System.Drawing.Size(100, 28);
             this.bJack.TabIndex = 16;
@@ -197,7 +197,7 @@
             // bQueen
             // 
             this.bQueen.Location = new System.Drawing.Point(4, 149);
-            this.bQueen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bQueen.Margin = new System.Windows.Forms.Padding(4);
             this.bQueen.Name = "bQueen";
             this.bQueen.Size = new System.Drawing.Size(100, 28);
             this.bQueen.TabIndex = 17;
@@ -208,7 +208,7 @@
             // bKing
             // 
             this.bKing.Location = new System.Drawing.Point(112, 149);
-            this.bKing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bKing.Margin = new System.Windows.Forms.Padding(4);
             this.bKing.Name = "bKing";
             this.bKing.Size = new System.Drawing.Size(100, 28);
             this.bKing.TabIndex = 18;
@@ -219,7 +219,7 @@
             // bAce
             // 
             this.bAce.Location = new System.Drawing.Point(67, 185);
-            this.bAce.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bAce.Margin = new System.Windows.Forms.Padding(4);
             this.bAce.Name = "bAce";
             this.bAce.Size = new System.Drawing.Size(100, 28);
             this.bAce.TabIndex = 19;
@@ -284,7 +284,7 @@
             this.pnlFigure.Controls.Add(this.bJack);
             this.pnlFigure.Controls.Add(this.bQueen);
             this.pnlFigure.Location = new System.Drawing.Point(315, 145);
-            this.pnlFigure.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlFigure.Margin = new System.Windows.Forms.Padding(4);
             this.pnlFigure.Name = "pnlFigure";
             this.pnlFigure.Size = new System.Drawing.Size(217, 250);
             this.pnlFigure.TabIndex = 29;
@@ -299,7 +299,7 @@
             this.pnlSuite.Controls.Add(this.checkDiamond);
             this.pnlSuite.Controls.Add(this.lSuite);
             this.pnlSuite.Location = new System.Drawing.Point(540, 276);
-            this.pnlSuite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlSuite.Margin = new System.Windows.Forms.Padding(4);
             this.pnlSuite.Name = "pnlSuite";
             this.pnlSuite.Size = new System.Drawing.Size(217, 119);
             this.pnlSuite.TabIndex = 31;
@@ -307,7 +307,7 @@
             // bAsk
             // 
             this.bAsk.Location = new System.Drawing.Point(132, 12);
-            this.bAsk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bAsk.Margin = new System.Windows.Forms.Padding(4);
             this.bAsk.Name = "bAsk";
             this.bAsk.Size = new System.Drawing.Size(81, 28);
             this.bAsk.TabIndex = 10;
@@ -319,7 +319,7 @@
             // 
             this.checkSpade.AutoSize = true;
             this.checkSpade.Location = new System.Drawing.Point(163, 48);
-            this.checkSpade.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkSpade.Margin = new System.Windows.Forms.Padding(4);
             this.checkSpade.Name = "checkSpade";
             this.checkSpade.Size = new System.Drawing.Size(41, 20);
             this.checkSpade.TabIndex = 9;
@@ -330,7 +330,7 @@
             // 
             this.checkHeart.AutoSize = true;
             this.checkHeart.Location = new System.Drawing.Point(113, 48);
-            this.checkHeart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkHeart.Margin = new System.Windows.Forms.Padding(4);
             this.checkHeart.Name = "checkHeart";
             this.checkHeart.Size = new System.Drawing.Size(41, 20);
             this.checkHeart.TabIndex = 8;
@@ -341,7 +341,7 @@
             // 
             this.checkClub.AutoSize = true;
             this.checkClub.Location = new System.Drawing.Point(64, 48);
-            this.checkClub.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkClub.Margin = new System.Windows.Forms.Padding(4);
             this.checkClub.Name = "checkClub";
             this.checkClub.Size = new System.Drawing.Size(41, 20);
             this.checkClub.TabIndex = 7;
@@ -352,30 +352,30 @@
             // 
             this.checkDiamond.AutoSize = true;
             this.checkDiamond.Location = new System.Drawing.Point(11, 48);
-            this.checkDiamond.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkDiamond.Margin = new System.Windows.Forms.Padding(4);
             this.checkDiamond.Name = "checkDiamond";
             this.checkDiamond.Size = new System.Drawing.Size(41, 20);
             this.checkDiamond.TabIndex = 6;
             this.checkDiamond.Text = "♦";
             this.checkDiamond.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // pnlNumber
             // 
-            this.panel1.Controls.Add(this.bfour);
-            this.panel1.Controls.Add(this.bthree);
-            this.panel1.Controls.Add(this.btwo);
-            this.panel1.Controls.Add(this.bone);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(540, 145);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(217, 123);
-            this.panel1.TabIndex = 32;
+            this.pnlNumber.Controls.Add(this.bfour);
+            this.pnlNumber.Controls.Add(this.bthree);
+            this.pnlNumber.Controls.Add(this.btwo);
+            this.pnlNumber.Controls.Add(this.bone);
+            this.pnlNumber.Controls.Add(this.label1);
+            this.pnlNumber.Location = new System.Drawing.Point(540, 145);
+            this.pnlNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.pnlNumber.Name = "pnlNumber";
+            this.pnlNumber.Size = new System.Drawing.Size(217, 123);
+            this.pnlNumber.TabIndex = 32;
             // 
             // bfour
             // 
             this.bfour.Location = new System.Drawing.Point(113, 87);
-            this.bfour.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bfour.Margin = new System.Windows.Forms.Padding(4);
             this.bfour.Name = "bfour";
             this.bfour.Size = new System.Drawing.Size(100, 28);
             this.bfour.TabIndex = 23;
@@ -385,7 +385,7 @@
             // bthree
             // 
             this.bthree.Location = new System.Drawing.Point(5, 89);
-            this.bthree.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bthree.Margin = new System.Windows.Forms.Padding(4);
             this.bthree.Name = "bthree";
             this.bthree.Size = new System.Drawing.Size(100, 28);
             this.bthree.TabIndex = 22;
@@ -395,7 +395,7 @@
             // btwo
             // 
             this.btwo.Location = new System.Drawing.Point(113, 53);
-            this.btwo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btwo.Margin = new System.Windows.Forms.Padding(4);
             this.btwo.Name = "btwo";
             this.btwo.Size = new System.Drawing.Size(100, 28);
             this.btwo.TabIndex = 21;
@@ -405,7 +405,7 @@
             // bone
             // 
             this.bone.Location = new System.Drawing.Point(4, 52);
-            this.bone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bone.Margin = new System.Windows.Forms.Padding(4);
             this.bone.Name = "bone";
             this.bone.Size = new System.Drawing.Size(100, 28);
             this.bone.TabIndex = 20;
@@ -429,7 +429,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlNumber);
             this.Controls.Add(this.pnlSuite);
             this.Controls.Add(this.pnlFigure);
             this.Controls.Add(this.lp4);
@@ -441,7 +441,7 @@
             this.Controls.Add(this.pnl4);
             this.Controls.Add(this.pnl1);
             this.Controls.Add(this.pnl3);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "`";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -449,8 +449,8 @@
             this.pnlFigure.PerformLayout();
             this.pnlSuite.ResumeLayout(false);
             this.pnlSuite.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnlNumber.ResumeLayout(false);
+            this.pnlNumber.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,7 +485,7 @@
         private System.Windows.Forms.CheckBox checkHeart;
         private System.Windows.Forms.CheckBox checkClub;
         private System.Windows.Forms.CheckBox checkDiamond;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlNumber;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button bfour;
         private System.Windows.Forms.Button bthree;

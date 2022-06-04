@@ -85,15 +85,11 @@ namespace CardsModel
         {
             Cards.Remove(card);
         }
-        public void RemoveCardSet(List<Card> cards)
+        public void RemoveCard(IEnumerable<Card> cards)
         {
-            foreach (var c in Cards)
+            foreach (var c1 in cards)
             {
-                foreach (var c1 in cards)
-                {
-                    if (c == c1)
-                        Cards.Remove(c1);
-                }
+                RemoveCard(c1);
             }
         }
         public void RemoveCard(int n)

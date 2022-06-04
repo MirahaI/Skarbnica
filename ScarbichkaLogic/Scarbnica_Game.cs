@@ -7,7 +7,7 @@ namespace ScarbnichkaLogic
 {
     public class Scarbnica_Game
     {
-        enum Mode
+        public enum Mode
         {
             AskingFigure,
             AskingNumber,
@@ -23,30 +23,30 @@ namespace ScarbnichkaLogic
         {
             get
             {
-                switch (mode)
+                switch (GameMode)
                 {
                     case Mode.AskingFigure:
-                        return $"{asker.Name} is asking about Figure {beenasked.Name}";  
+                        return $"{Asker.Name} is asking about Figure {beenasked.Name}";  
                     case Mode.AskingNumber:
-                        return $"{asker.Name} is asking about Number {beenasked.Name}";
+                        return $"{Asker.Name} is asking about Number {beenasked.Name}";
                     case Mode.AskingSuite:
-                        return $"{asker.Name} is asking about Suite {beenasked.Name}";
+                        return $"{Asker.Name} is asking about Suite {beenasked.Name}";
                     default:
                         throw new Exception("We dont know that mode");
                 }
             }
         }
         public bool IsGameOver { get; set; }
-        private Mode mode;
+        public Mode GameMode { get; set; }
+
         private Mode ModeThatbeenguessedright;
         private Action ShowState;
-        private Player asker;
+        public Player Asker { get; set; }
         private Player beenasked;
         private CardFigure activeFigure;
         private int activeNumber;
         private List<CardSuite> activeSuite;
 
-        public Player ActivePlayer { get; set; }
 
         public Scarbnica_Game(List<Player> players, Action showState)
         {
@@ -58,9 +58,9 @@ namespace ScarbnichkaLogic
 
         public string GetPossibleActions() 
         {
-            if (mode == Mode.AskingFigure)
+            if (GameMode == Mode.AskingFigure)
                 return "Asking about Figure";
-            if (mode == Mode.AskingNumber)
+            if (GameMode == Mode.AskingNumber)
                 return "Asking about Number";
             return "Asking about Suite";
         }
@@ -87,19 +87,19 @@ namespace ScarbnichkaLogic
             }
 
             ResultInfo = "All right";
-            mode = Mode.AskingSuite;
-            asker = WhoFirst();
-            beenasked = NextPlayer(asker);
+            GameMode = Mode.AskingSuite;
+            Asker = WhoFirst();
+            beenasked = NextPlayer(Asker);
             ShowState();
         }
 
     
 
-        public void Turn(Card cardForTurn)
-        {
-            if (Impossible(cardForTurn)) return;
-            ShowState();
-        }
+        //public void Turn(Card cardForTurn)
+        //{
+        //    if (Impossible(cardForTurn)) return;
+        //    ShowState();
+        //}
 
 
         public bool CheckIfFigureFits(CardFigure fig)  
@@ -109,13 +109,13 @@ namespace ScarbnichkaLogic
             if (res)
             {
                 activeFigure = fig;
-                mode = Mode.AskingNumber;
+                GameMode = Mode.AskingNumber;
                 ModeThatbeenguessedright = Mode.AskingFigure;
             }
             else
             {
                 PickUpAfterWrongAnswer();
-                mode = Mode.AskingFigure;
+                GameMode = Mode.AskingFigure;
                 ModeThatbeenguessedright = Mode.AskingFigure;
                 NextTurn();
             }
@@ -134,13 +134,13 @@ namespace ScarbnichkaLogic
             if (activeNumber == needfigure)
             {
                 checknum = true;
-                mode = Mode.AskingSuite;
+                GameMode = Mode.AskingSuite;
                 ModeThatbeenguessedright = Mode.AskingNumber;
             }
             else
             {
                 PickUpAfterWrongAnswer();
-                mode = Mode.AskingSuite;
+                GameMode = Mode.AskingSuite;
                 ModeThatbeenguessedright = Mode.AskingFigure;
                 NextTurn();
             }
@@ -160,14 +160,14 @@ namespace ScarbnichkaLogic
             if (check == true)
             {
                 CardSetForAsker();
-                mode = Mode.AskingFigure;
+                GameMode = Mode.AskingFigure;
                 ModeThatbeenguessedright = Mode.AskingSuite;
                 NextTurn();
             }
             else
             {
                 PickUpAfterWrongAnswer();
-                mode = Mode.AskingFigure;
+                GameMode = Mode.AskingFigure;
                 ModeThatbeenguessedright = Mode.AskingNumber;
                 NextTurn();
 
@@ -185,13 +185,13 @@ namespace ScarbnichkaLogic
                     pull.Add(beenasked.Hand.Pull(c));
             }
 
-            asker.Hand.Add(pull);
+            Asker.Hand.Add(pull);
         }
 
         private void PickUpAfterWrongAnswer()
         {
             List<Card> Pull = new List<Card>();
-            asker.Hand.Add(Deck[Deck.Count - 1]);
+            Asker.Hand.Add(Deck[Deck.Count - 1]);
             Deck.RemoveCard(Deck[Deck.Count - 1]);
             NextTurn();
         }
@@ -213,8 +213,8 @@ namespace ScarbnichkaLogic
 
             if (ModeThatbeenguessedright != Mode.AskingSuite)
             {
-                asker = beenasked;
-                beenasked = NextPlayer(asker);
+                Asker = beenasked;
+                beenasked = NextPlayer(Asker);
             }
 
         }
@@ -255,39 +255,46 @@ namespace ScarbnichkaLogic
         private void CheckBox()
         {
             //перебрать фигуры и игроков, для каждой посчитать количество у игрока. Если 4 выбрасываем эти фигуры
-            foreach (string name in Enum.GetNames(typeof(CardFigure)))
+            foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
             {
-                int res = 0;
                 foreach (var p in Players)
                 {
-                    foreach (var c in p.Hand)
+
+                    int res = p.Hand.Count(c => c.Figure == figure);
+                    if (res == 4)
                     {
-                        if (c.Figure.ToString() == name)
-                        {
-                            res++;
-                            if (res == 4)
-                            {
-                                p.NumofBox++;
-                                foreach (var cardToRemove in p.Hand)
-                                {
-                                    if (c.Figure.ToString() == name)
-                                        p.Hand.RemoveCard(cardToRemove);
-                                }
-                            }
-                        }
+                        p.Hand.RemoveCard(p.Hand.Where(c => c.Figure == figure));
                     }
+
+                    //int res = 0;
+                    //foreach (var c in p.Hand)
+                    //{
+                    //    if (c.Figure.ToString() == name)
+                    //    {
+                    //        res++;
+                    //        if (res == 4)
+                    //        {
+                    //            p.NumofBox++;
+                    //            foreach (var cardToRemove in p.Hand)
+                    //            {
+                    //                if (c.Figure.ToString() == name)
+                    //                    p.Hand.RemoveCard(cardToRemove);
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
             }
         }
 
-        private bool Impossible(Card cardForTurn)
-        {
-            return IsGameOver ||
-                (mode == Mode.AskingFigure && ActivePlayer == beenasked) ||
-                (mode == Mode.AskingNumber && ActivePlayer == beenasked) ||
-                (mode == Mode.AskingSuite && ActivePlayer == beenasked) ||
-                (ActivePlayer == beenasked);
-        }
+        //private bool Impossible(Card cardForTurn)
+        //{
+        //    return IsGameOver ||
+        //        (GameMode == Mode.AskingFigure && ActivePlayer == beenasked) ||
+        //        (GameMode == Mode.AskingNumber && ActivePlayer == beenasked) ||
+        //        (GameMode == Mode.AskingSuite && ActivePlayer == beenasked) ||
+        //        (ActivePlayer == beenasked);
+        //}
 
         private Player NextPlayer(Player player)
         {

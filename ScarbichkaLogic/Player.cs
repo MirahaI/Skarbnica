@@ -8,11 +8,10 @@ namespace ScarbnichkaLogic
     public class Player
     {
 
-        public Player(string name, CardSet hand, int numofBox)
+        public Player(string name, CardSet hand)
         {
             Name = name;
             Hand = hand;
-            NumofBox = numofBox;
         }
 
         public string Name { get; set; }

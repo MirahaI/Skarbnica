@@ -59,7 +59,7 @@ namespace GCI
             {
                 GraphicCard card = Cards[i] as GraphicCard;
                 card.Pb.BringToFront();
-                card.Pb.Size = new System.Drawing.Size(card.Pb.Image.Width * Panel.Height / card.Pb.Image.Height, Panel.Height);
+                card.Pb.Size = new Size(card.Pb.Image.Width * Panel.Height / card.Pb.Image.Height, Panel.Height);
                 card.Pb.Location = new Point(i * (Panel.Width - card.Pb.Width) / Count, 0);
             }
         }
