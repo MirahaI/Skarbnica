@@ -36,16 +36,15 @@ namespace ScarbnichkaLogic
                 }
             }
         }
-
         public bool IsGameOver { get; set; }
         private Mode mode;
-        private Mode lastmode;
+        private Mode ModeThatbeenguessedright;
         private Action ShowState;
         private Player asker;
         private Player beenasked;
         private CardFigure activeFigure;
         private int activeNumber;
-        private CardSuite activeSuite;
+        private List<CardSuite> activeSuite;
 
         public Player ActivePlayer { get; set; }
 
@@ -99,17 +98,7 @@ namespace ScarbnichkaLogic
         public void Turn(Card cardForTurn)
         {
             if (Impossible(cardForTurn)) return;
-
-            ResultInfo = "";
-            SwitchMode();
             ShowState();
-
-        }
-
-        private void TurnOnAskingFigure()
-        {
-            mode = Mode.AskingFigure;
-            //if 
         }
 
 
@@ -121,6 +110,13 @@ namespace ScarbnichkaLogic
             {
                 activeFigure = fig;
                 mode = Mode.AskingNumber;
+                ModeThatbeenguessedright = Mode.AskingFigure;
+            }
+            else
+            {
+                PickUpAfterWrongAnswer();
+                mode = Mode.AskingFigure;
+                ModeThatbeenguessedright = Mode.AskingFigure;
                 NextTurn();
             }
             return res;
@@ -129,32 +125,60 @@ namespace ScarbnichkaLogic
         {
             bool checknum = false;
             int needfigure = 0;
+            activeNumber = answernumber;
             foreach (var c in beenasked.Hand)
             {
                 if (activeFigure == c.Figure)
                     needfigure++;
             }
-            if (answernumber == needfigure)
+            if (activeNumber == needfigure)
             {
                 checknum = true;
+                mode = Mode.AskingSuite;
+                ModeThatbeenguessedright = Mode.AskingNumber;
             }
-            activeNumber = answernumber;
+            else
+            {
+                PickUpAfterWrongAnswer();
+                mode = Mode.AskingSuite;
+                ModeThatbeenguessedright = Mode.AskingFigure;
+                NextTurn();
+            }
             return checknum;
         }
         public bool CheckIfSuitesFits(List<CardSuite> answersuite)
         {
-            foreach (var suite in answersuite)
+            activeSuite = answersuite;
+            bool check = true; 
+            foreach (var suite in activeSuite)
             {
                 if (beenasked.Hand.FirstOrDefault(c => c.Suite == suite && c.Figure == activeFigure) == default)
-                    return false;
+                {
+                    check = false;
+                } 
             }
-           
-            return true;
+            if (check == true)
+            {
+                CardSetForAsker();
+                mode = Mode.AskingFigure;
+                ModeThatbeenguessedright = Mode.AskingSuite;
+                NextTurn();
+            }
+            else
+            {
+                PickUpAfterWrongAnswer();
+                mode = Mode.AskingFigure;
+                ModeThatbeenguessedright = Mode.AskingNumber;
+                NextTurn();
+
+            }
+            return check;
         }
 
-        public void CardSetForAsker(Player asker, Player beenasked)
+        public void CardSetForAsker()
         {
             List<Card> pull = new List<Card>();
+
             foreach (var c in beenasked.Hand)
             {
                 if (activeFigure == c.Figure)
@@ -187,13 +211,12 @@ namespace ScarbnichkaLogic
             if (IsGameOver) return;
             CheckWinner();
 
-            if (lastmode != Mode.AskingSuite)
+            if (ModeThatbeenguessedright != Mode.AskingSuite)
             {
                 asker = beenasked;
                 beenasked = NextPlayer(asker);
             }
 
-            TurnOnAskingFigure();
         }
 
         private void CheckWinner()
@@ -232,6 +255,29 @@ namespace ScarbnichkaLogic
         private void CheckBox()
         {
             //перебрать фигуры и игроков, для каждой посчитать количество у игрока. Если 4 выбрасываем эти фигуры
+            foreach (string name in Enum.GetNames(typeof(CardFigure)))
+            {
+                int res = 0;
+                foreach (var p in Players)
+                {
+                    foreach (var c in p.Hand)
+                    {
+                        if (c.Figure.ToString() == name)
+                        {
+                            res++;
+                            if (res == 4)
+                            {
+                                p.NumofBox++;
+                                foreach (var cardToRemove in p.Hand)
+                                {
+                                    if (c.Figure.ToString() == name)
+                                        p.Hand.RemoveCard(cardToRemove);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private bool Impossible(Card cardForTurn)
