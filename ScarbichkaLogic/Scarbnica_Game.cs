@@ -53,7 +53,6 @@ namespace ScarbnichkaLogic
             Players = players;
             ShowState = showState;
             Deck = new CardSet();
-            Prepare();
         }
 
         public string GetPossibleActions() 
@@ -112,45 +111,36 @@ namespace ScarbnichkaLogic
                 ResultInfo = "Asker guessed Figure right!";
                 activeFigure = fig;
                 GameMode = Mode.AskingNumber;
-                ModeThatbeenguessedright = Mode.AskingFigure;
-
+                ShowState();
             }
             else
             {
                 ResultInfo = "Asker guessed Figure wrong!";
                 PickUpAfterWrongAnswer();
-                GameMode = Mode.AskingFigure;
-                ModeThatbeenguessedright = Mode.AskingFigure;
-                NextTurn();
+                NextTurn(res);
             }
+            
             return res;
         }
         public bool CheckIfNumberFits(int answernumber)
         {
-            bool checknum = false;
-            int needfigure = 0;
-            activeNumber = answernumber;
-            foreach (var c in beenasked.Hand)
-            {
-                if (activeFigure == c.Figure)
-                    needfigure++;
-            }
-            if (activeNumber == needfigure)
+            int had = beenasked.Hand.Count(c => c.Figure == activeFigure);
+            
+            if (answernumber == had)
             {
                 ResultInfo = "Asker guessed Number right!";
-                checknum = true;
                 GameMode = Mode.AskingSuite;
-                ModeThatbeenguessedright = Mode.AskingNumber;
+                ShowState();
+                activeNumber = answernumber;
             }
             else
             {
                 ResultInfo = "Asker guessed Number wrong!";
                 PickUpAfterWrongAnswer();
-                GameMode = Mode.AskingSuite;
-                ModeThatbeenguessedright = Mode.AskingFigure;
-                NextTurn();
+                GameMode = Mode.AskingFigure;
+                NextTurn(false);
             }
-            return checknum;
+            return answernumber == had;
         }
         public bool CheckIfSuitesFits(List<CardSuite> answersuite)
         {
@@ -168,17 +158,14 @@ namespace ScarbnichkaLogic
                 ResultInfo = "Asker guessed Suites right!";
                 CardSetForAsker();
                 GameMode = Mode.AskingFigure;
-                ModeThatbeenguessedright = Mode.AskingSuite;
-                NextTurn();
             }
             else
             {
                 ResultInfo = "Asker guessed Suites wrong!";
                 PickUpAfterWrongAnswer();
                 GameMode = Mode.AskingFigure;
-                ModeThatbeenguessedright = Mode.AskingNumber;
-                NextTurn();
             }
+            NextTurn(check);
             return check;
         }
 
@@ -198,9 +185,7 @@ namespace ScarbnichkaLogic
         private void PickUpAfterWrongAnswer()
         {
             List<Card> Pull = new List<Card>();
-            Asker.Hand.Add(Deck[Deck.Count - 1]);
-            Deck.RemoveCard(Deck[Deck.Count - 1]);
-            NextTurn();
+            Asker.Hand.Add(Deck.Pull());
         }
 
         private Player NextPlayer(Player player, Predicate<Player> except, Player stopPlayer = null)
@@ -211,19 +196,19 @@ namespace ScarbnichkaLogic
             return applicant;
         }
 
-        private void NextTurn()
+        private void NextTurn(bool guess)
         {
             CheckBox();
             ifDeckemptyandHandsempty();
             if (IsGameOver) return;
             CheckWinner();
 
-            if (ModeThatbeenguessedright != Mode.AskingSuite)
+            if (!guess)
             {
                 Asker = beenasked;
                 beenasked = NextPlayer(Asker);
             }
-
+            ShowState();
         }
 
         private void CheckWinner()

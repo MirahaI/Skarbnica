@@ -35,12 +35,12 @@ namespace GCI
         }
         static GraphicCard() 
         {
-            faceDownImage = Image.FromFile($"{Application.StartupPath}\\images\\shirt.png");
+            faceDownImage = Image.FromFile($"{Application.StartupPath}\\images\\shirt.jpg");
             CardSet full = new CardSet();
             full.Full(); 
             foreach (var card in full)
             {
-                cardImages[card] = Image.FromFile($"{Application.StartupPath}\\images\\{card.Suite} {card.Figure}.png");
+                cardImages[card] = Image.FromFile($"{Application.StartupPath}\\images\\{card.Suite}s {card.Figure}.png");
             }
         }
         

@@ -29,8 +29,9 @@ namespace Skarbnica
             };
 
             game = new Scarbnica_Game(players, showState);
-            game.Prepare();
+
             game.Deck = new GraphicCardSet(pnlDeck);
+            game.Prepare();
             game.Deal();
 
         }
@@ -62,14 +63,14 @@ namespace Skarbnica
 
         private void bSix_Click_1(object sender, EventArgs e)
         {
-            CardFigure activefigure = new CardFigure();
             var b = (Button)sender;
+
             foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
             {
-                if (b.Name == figure.ToString())
-                    activefigure = figure;
+                if (b.Text == figure.ToString())
+                    game.CheckIfFigureFits(figure);
             }
-            game.CheckIfFigureFits(activefigure);
+            
             //понять, какая фигура написана на нажатой кнопке и вызвать чекиффигрфитс с этой фигурой
         }
 
