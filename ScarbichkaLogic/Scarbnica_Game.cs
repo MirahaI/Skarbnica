@@ -67,6 +67,7 @@ namespace ScarbnichkaLogic
 
         public void Prepare()
         {
+
             foreach (var player in Players)
             {
                 player.IsInGame = true;
@@ -87,7 +88,7 @@ namespace ScarbnichkaLogic
             }
 
             ResultInfo = "All right";
-            GameMode = Mode.AskingSuite;
+            GameMode = Mode.AskingFigure;
             Asker = WhoFirst();
             beenasked = NextPlayer(Asker);
             ShowState();
@@ -108,12 +109,15 @@ namespace ScarbnichkaLogic
 
             if (res)
             {
+                ResultInfo = "Asker guessed Figure right!";
                 activeFigure = fig;
                 GameMode = Mode.AskingNumber;
                 ModeThatbeenguessedright = Mode.AskingFigure;
+
             }
             else
             {
+                ResultInfo = "Asker guessed Figure wrong!";
                 PickUpAfterWrongAnswer();
                 GameMode = Mode.AskingFigure;
                 ModeThatbeenguessedright = Mode.AskingFigure;
@@ -133,12 +137,14 @@ namespace ScarbnichkaLogic
             }
             if (activeNumber == needfigure)
             {
+                ResultInfo = "Asker guessed Number right!";
                 checknum = true;
                 GameMode = Mode.AskingSuite;
                 ModeThatbeenguessedright = Mode.AskingNumber;
             }
             else
             {
+                ResultInfo = "Asker guessed Number wrong!";
                 PickUpAfterWrongAnswer();
                 GameMode = Mode.AskingSuite;
                 ModeThatbeenguessedright = Mode.AskingFigure;
@@ -159,6 +165,7 @@ namespace ScarbnichkaLogic
             }
             if (check == true)
             {
+                ResultInfo = "Asker guessed Suites right!";
                 CardSetForAsker();
                 GameMode = Mode.AskingFigure;
                 ModeThatbeenguessedright = Mode.AskingSuite;
@@ -166,11 +173,11 @@ namespace ScarbnichkaLogic
             }
             else
             {
+                ResultInfo = "Asker guessed Suites wrong!";
                 PickUpAfterWrongAnswer();
                 GameMode = Mode.AskingFigure;
                 ModeThatbeenguessedright = Mode.AskingNumber;
                 NextTurn();
-
             }
             return check;
         }
