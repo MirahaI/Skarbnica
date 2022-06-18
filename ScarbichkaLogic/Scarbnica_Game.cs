@@ -38,8 +38,6 @@ namespace ScarbnichkaLogic
         }
         public bool IsGameOver { get; set; }
         public Mode GameMode { get; set; }
-
-        private Mode ModeThatbeenguessedright;
         private Action ShowState;
         public Player Asker { get; set; }
         private Player beenasked;
@@ -176,9 +174,10 @@ namespace ScarbnichkaLogic
             foreach (var c in beenasked.Hand)
             {
                 if (activeFigure == c.Figure)
-                    pull.Add(beenasked.Hand.Pull(c));
+                    pull.Add(c);
             }
 
+            beenasked.Hand.RemoveCard(pull);
             Asker.Hand.Add(pull);
         }
 
@@ -201,7 +200,7 @@ namespace ScarbnichkaLogic
             CheckBox();
             ifDeckemptyandHandsempty();
             if (IsGameOver) return;
-            CheckWinner();
+            CheckWinner(IsGameOver);
 
             if (!guess)
             {
@@ -211,19 +210,18 @@ namespace ScarbnichkaLogic
             ShowState();
         }
 
-        private void CheckWinner()
+        private void CheckWinner(bool IsGameOver)
         {
-            Player winner = Players[0];
-            foreach (var p in Players)
+            if (IsGameOver == true)
             {
-                if (p.NumofBox > winner.NumofBox)
+                Player winner = Players[0];
+                foreach (var p in Players)
                 {
-                    winner = p;
-                    ResultInfo = $"{winner.Name} has collected the most boxes!";
-                }
-                if (p.NumofBox == winner.NumofBox)
-                {
-                    ResultInfo = $"There is a draw";
+                    if (p.NumofBox > winner.NumofBox)
+                    {
+                        winner = p;
+                        ResultInfo = $"{winner.Name} has collected the most boxes!";
+                    }
                 }
             }
         }
@@ -244,14 +242,13 @@ namespace ScarbnichkaLogic
             return IsGameOver;
         }
 
-        private void CheckBox()
+        private void CheckBox() //Error when Box is ready
         {
             //перебрать фигуры и игроков, для каждой посчитать количество у игрока. Если 4 выбрасываем эти фигуры
             foreach (CardFigure figure in Enum.GetValues(typeof(CardFigure)))
             {
                 foreach (var p in Players)
                 {
-
                     int res = p.Hand.Count(c => c.Figure == figure);
                     if (res == 4)
                     {

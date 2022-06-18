@@ -30,7 +30,7 @@ namespace Skarbnica
 
             game = new Scarbnica_Game(players, showState);
 
-            game.Deck = new GraphicCardSet(pnlDeck);
+            game.Deck = new GraphicCardSet(pnlDeck); //Deck doesnt show
             game.Prepare();
             game.Deal();
 
@@ -61,7 +61,7 @@ namespace Skarbnica
 
         }
 
-        private void bSix_Click_1(object sender, EventArgs e)
+        private void ForFigure_Click(object sender, EventArgs e)
         {
             var b = (Button)sender;
 
@@ -70,26 +70,21 @@ namespace Skarbnica
                 if (b.Text == figure.ToString())
                     game.CheckIfFigureFits(figure);
             }
-            
+
             //понять, какая фигура написана на нажатой кнопке и вызвать чекиффигрфитс с этой фигурой
         }
 
-        private void lres_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void bone_Click(object sender, EventArgs e)
+        private void ForNumber_Click(object sender, EventArgs e)
         {
             int activenumber = 0;
             var b1 = (Button)sender;
-            if (b1.Name == "One")
+            if (b1.Text == "One")
                 activenumber = 1;
-            if (b1.Name == "Two")
+            if (b1.Text == "Two")
                 activenumber = 2;
-            if (b1.Name == "Three")
+            if (b1.Text == "Three")
                 activenumber = 3;
-            if (b1.Name == "Four")
+            if (b1.Text == "Four")
                 activenumber = 4;
             game.CheckIfNumberFits(activenumber);
         }
@@ -105,6 +100,8 @@ namespace Skarbnica
                 activesuites.Add(CardSuite.Spade);
             if (checkHeart.Checked == true)
                 activesuites.Add(CardSuite.Heart);
+
+            game.CheckIfSuitesFits(activesuites);
         }
     }
 }
