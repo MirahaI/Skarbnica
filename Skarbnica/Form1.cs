@@ -28,22 +28,31 @@ namespace Skarbnica
                 new Player("Lesya", new GraphicCardSet(pnl4))
             };
 
-            game = new Scarbnica_Game(players, showState);
-
+            game = new Scarbnica_Game(players, showState, requestPlayer);
+            
             game.Deck = new GraphicCardSet(pnlDeck); //Deck doesnt show
             game.Prepare();
             game.Deal();
 
         }
 
+        private Player requestPlayer()
+        {
+            RequestPlayer form = new RequestPlayer();
+            form.ShowDialog();
+            return form.ChoosedPlayer;
+        }
+
         private void showState()
         {
+            
             lres.Text = game.ResultInfo;
 
             pnlFigure.Enabled = game.GameMode == Scarbnica_Game.Mode.AskingFigure;
             pnlNumber.Enabled = game.GameMode == Scarbnica_Game.Mode.AskingNumber;
             pnlSuite.Enabled = game.GameMode == Scarbnica_Game.Mode.AskingSuite;
 
+            ((GraphicCardSet)game.Deck).HideCards();
             foreach (var player in game.Players)
             {
                 if (player == game.Asker)
@@ -58,7 +67,7 @@ namespace Skarbnica
             lp3.Text = game.Players[2].NumofBox.ToString();
             lp4.Text = game.Players[3].NumofBox.ToString();
 
-
+            
         }
 
         private void ForFigure_Click(object sender, EventArgs e)

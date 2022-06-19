@@ -103,7 +103,7 @@ namespace CardsModel
             {
                 foreach (CardSuite suite in Enum.GetValues(typeof(CardSuite)))
                 {
-                    Cards.Add(GetCard(suite, figure));
+                    Add(GetCard(suite, figure));
                 }
             }
         }
