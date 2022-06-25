@@ -40,7 +40,7 @@ namespace ScarbnichkaLogic
         public Mode GameMode { get; set; }
         private Action ShowState;
 
-        private Func<Player> RequestBeenAsked;
+        //private Func<Player> RequestBeenAsked;
         public Player Asker { get; set; }
         private Player beenasked;
         private CardFigure activeFigure;
@@ -48,9 +48,9 @@ namespace ScarbnichkaLogic
         private List<CardSuite> activeSuite;
 
 
-        public Scarbnica_Game(List<Player> players, Action showState, Func<Player> requestBeenAsked)
+        public Scarbnica_Game(List<Player> players, Action showState)//, Func<Player> requestBeenAsked)
         {
-            RequestBeenAsked = requestBeenAsked;
+            //RequestBeenAsked = requestBeenAsked;
             Players = players;
             ShowState = showState;
             Deck = new CardSet();
@@ -165,6 +165,7 @@ namespace ScarbnichkaLogic
                 ResultInfo = "Asker guessed Suites wrong!";
                 PickUpAfterWrongAnswer();
                 GameMode = Mode.AskingFigure;
+                //beenasked = RequestBeenAsked(); //найти место
             }
             NextTurn(check);
             return check;
@@ -257,7 +258,6 @@ namespace ScarbnichkaLogic
                     {
                         p.Hand.RemoveCard(p.Hand.Where(c => c.Figure == figure).ToArray());
                         p.NumofBox++;
-                        beenasked = RequestBeenAsked(); //найти место
                     }
 
                     //int res = 0;
