@@ -13,32 +13,40 @@ namespace Skarbnica
 {
     public partial class RequestPlayer : Form
     {
+        public Scarbnica_Game Game { get; set; }
+        public List<Button> buttons = new List<Button>();
         public Player ChoosedPlayer { get; set; }
-        public RequestPlayer()
+        public RequestPlayer(Scarbnica_Game game)
         {
             InitializeComponent();
+            Game = game;
+            for (int i = 0; i < Game.Players.Count; i++)
+            {
+                Button b = new Button();
+                b.Width = 100;
+                b.Text = Game.Players[i].Name;
+                b.Location = GetLocation(i, Game.Players.Count, new Point(Width / 2, Height / 2));
+                b.Click += NeedforRequest_Click;
+                buttons.Add(b);
+                Controls.Add(b);
+                b.Enabled = Game.Asker != Game.Players[i];
+            }
+
+        }
+
+        private Point GetLocation(int num, int count, Point center)
+        {
+            int r = 50;
+            double angle = num * 2 * Math.PI / count - Math.PI / 4;
+            return new Point((int)(center.X - 50 + Math.Sin(angle) * r), (int)(center.Y - Math.Cos(angle) * r));
         }
 
         private void NeedforRequest_Click(object sender, EventArgs e)
         {
-            if (Form1.game.Asker == Form1.game.Players[0])
-                b1.Enabled = false;
-            if (Form1.game.Asker == Form1.game.Players[1])
-                b2.Enabled = false;
-            if (Form1.game.Asker == Form1.game.Players[2])
-                b3.Enabled = false;
-            if (Form1.game.Asker == Form1.game.Players[3])
-                b4.Enabled = false;
-
             var boba = (Button)sender;
-            if (boba.Name[1] == 1)
-                ChoosedPlayer = Form1.game.Players[0];
-            if (boba.Name[1] == 2)
-                ChoosedPlayer = Form1.game.Players[1];
-            if (boba.Name[1] == 3)
-                ChoosedPlayer = Form1.game.Players[2];
-            if (boba.Name[1] == 4)
-                ChoosedPlayer = Form1.game.Players[3];
+            int num = buttons.IndexOf(boba);
+            ChoosedPlayer = Game.Players[num];
+            Close();
         }
     }
 }

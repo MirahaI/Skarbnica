@@ -15,7 +15,7 @@ namespace Skarbnica
 {
     public partial class Form1 : Form
     {
-        public static Scarbnica_Game game;
+        public Scarbnica_Game game;
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace Skarbnica
                 new Player("Lesya", new GraphicCardSet(pnl4))
             };
 
-            game = new Scarbnica_Game(players, showState);//, requestPlayer);
+            game = new Scarbnica_Game(players, showState, requestPlayer);
 
 
             game.Deck = new GraphicCardSet(pnlDeck); 
@@ -39,7 +39,7 @@ namespace Skarbnica
 
         private Player requestPlayer()
         {
-            RequestPlayer form = new RequestPlayer();
+            RequestPlayer form = new RequestPlayer(game);
             form.ShowDialog();
             return form.ChoosedPlayer;
         }
