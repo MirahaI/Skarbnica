@@ -68,7 +68,10 @@ namespace Skarbnica
             lp3.Text = game.Players[2].NumofBox.ToString();
             lp4.Text = game.Players[3].NumofBox.ToString();
 
-            
+            foreach (var p in game.Players)
+            {
+                p.Hand.Sort();
+            }
         }
 
         private void ForFigure_Click(object sender, EventArgs e)

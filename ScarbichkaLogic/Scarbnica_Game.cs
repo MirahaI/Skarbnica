@@ -158,6 +158,7 @@ namespace ScarbnichkaLogic
             {
                 ResultInfo = "Asker guessed Suites right!";
                 CardSetForAsker();
+
                 GameMode = Mode.AskingFigure;
                 beenasked = RequestBeenAsked();
             }
