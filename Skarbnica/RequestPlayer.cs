@@ -23,7 +23,7 @@ namespace Skarbnica
             for (int i = 0; i < Game.Players.Count; i++)
             {
                 Button b = new Button();
-                b.Width = 100;
+                b.Width = 50;
                 b.Text = Game.Players[i].Name;
                 b.Location = GetLocation(i, Game.Players.Count, new Point(Width / 2, Height / 2));
                 b.Click += NeedforRequest_Click;
@@ -38,7 +38,7 @@ namespace Skarbnica
         {
             int r = 50;
             double angle = num * 2 * Math.PI / count - Math.PI / 4;
-            return new Point((int)(center.X - 50 + Math.Sin(angle) * r), (int)(center.Y - Math.Cos(angle) * r));
+            return new Point((int)(center.X - 75 + Math.Sin(angle) * r), (int)(center.Y - Math.Cos(angle) * r));
         }
 
         private void NeedforRequest_Click(object sender, EventArgs e)

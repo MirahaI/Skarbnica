@@ -94,8 +94,6 @@ namespace Skarbnica
                 activenumber = 2;
             if (b1.Text == "Three")
                 activenumber = 3;
-            if (b1.Text == "Four")
-                activenumber = 4;
             game.CheckIfNumberFits(activenumber);
         }
 
