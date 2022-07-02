@@ -55,7 +55,14 @@ namespace Skarbnica
 
         private void showState()
         {
-            
+            for (int i = 0; i < game.Players.Count; i++)
+            {
+                if (game.Players[i] == game.beenasked)
+                    lbls[i].ForeColor = Color.Red;
+                else
+                    lbls[i].ForeColor = Color.Black;
+            }
+
             lres.Text = game.ResultInfo;
 
             pnlFigure.Enabled = game.GameMode == Scarbnica_Game.Mode.AskingFigure;
@@ -71,7 +78,6 @@ namespace Skarbnica
                     ((GraphicCardSet)player.Hand).HideCards();
             }
 
-            //написать количество сундуков
             for (int i = 0; i < game.Players.Count; i++)
             {
                 lbls[i].Text = $"{game.Players[i].Name}: {game.Players[i].NumofBox}";
@@ -88,8 +94,6 @@ namespace Skarbnica
                 if (b.Text == figure.ToString())
                     game.CheckIfFigureFits(figure);
             }
-
-            //понять, какая фигура написана на нажатой кнопке и вызвать чекиффигрфитс с этой фигурой
         }
 
         private void ForNumber_Click(object sender, EventArgs e)
@@ -119,6 +123,10 @@ namespace Skarbnica
 
             game.CheckIfSuitesFits(activesuites);
 
+            checkDiamond.Checked = false;
+            checkClub.Checked = false;
+            checkSpade.Checked = false;
+            checkHeart.Checked = false;
             //посбрасывать
         }
     }

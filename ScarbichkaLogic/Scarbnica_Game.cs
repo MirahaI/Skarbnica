@@ -42,7 +42,7 @@ namespace ScarbnichkaLogic
 
         private Func<Player> RequestBeenAsked;
         public Player Asker { get; set; }
-        private Player beenasked;
+        public Player beenasked;
         private CardFigure activeFigure;
         private int activeNumber;
         private List<CardSuite> activeSuite;

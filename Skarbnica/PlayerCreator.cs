@@ -21,7 +21,9 @@ namespace Skarbnica
         private void button1_Click(object sender, EventArgs e)
         {
             Names.Add(textBox1.Text);
-            //more
+            Names.Add(textBox2.Text);
+            Names.Add(textBox3.Text);
+            Names.Add(textBox4.Text);
 
             Close();
         }
