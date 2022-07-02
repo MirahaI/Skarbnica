@@ -16,17 +16,26 @@ namespace Skarbnica
     public partial class Form1 : Form
     {
         public Scarbnica_Game game;
+        List<Label> lbls;
+        List<Panel> panels;
         public Form1()
         {
             InitializeComponent();
 
-            List<Player> players = new List<Player>()
+            panels = new List<Panel>() { pnl1, pnl2, pnl3, pnl4 };
+
+            List<Player> players = new List<Player>();
+
+
+            var playerForm = new PlayerCreator();
+            playerForm.ShowDialog();
+            for (int i = 0; i < playerForm.Names.Count; i++)
             {
-                new Player("Taras", new GraphicCardSet(pnl1)),
-                new Player("Mykola", new GraphicCardSet(pnl2)),
-                new Player("Ostap", new GraphicCardSet(pnl3)),
-                new Player("Lesya", new GraphicCardSet(pnl4))
-            };
+                var name = playerForm.Names[i];
+                players.Add(new Player(name, new GraphicCardSet(panels[i])));
+            }
+
+            lbls = new List<Label>() { lp1, lp2, lp3, lp4 };
 
             game = new Scarbnica_Game(players, showState, requestPlayer);
 
@@ -63,15 +72,11 @@ namespace Skarbnica
             }
 
             //написать количество сундуков
-            lp1.Text = game.Players[0].NumofBox.ToString();
-            lp2.Text = game.Players[1].NumofBox.ToString();
-            lp3.Text = game.Players[2].NumofBox.ToString();
-            lp4.Text = game.Players[3].NumofBox.ToString();
-
-            foreach (var p in game.Players)
+            for (int i = 0; i < game.Players.Count; i++)
             {
-                p.Hand.Sort();
+                lbls[i].Text = $"{game.Players[i].Name}: {game.Players[i].NumofBox}";
             }
+
         }
 
         private void ForFigure_Click(object sender, EventArgs e)
@@ -113,6 +118,8 @@ namespace Skarbnica
                 activesuites.Add(CardSuite.Heart);
 
             game.CheckIfSuitesFits(activesuites);
+
+            //посбрасывать
         }
     }
 }

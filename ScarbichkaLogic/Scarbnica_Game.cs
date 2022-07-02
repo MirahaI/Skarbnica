@@ -189,8 +189,7 @@ namespace ScarbnichkaLogic
 
         private void PickUpAfterWrongAnswer()
         {
-            List<Card> Pull = new List<Card>();
-            Asker.Hand.Add(Deck.Pull());
+            if (Deck.Count > 0) Asker.Hand.Add(Deck.Pull());
         }
 
         private Player NextPlayer(Player player, Predicate<Player> except, Player stopPlayer = null)
@@ -210,9 +209,15 @@ namespace ScarbnichkaLogic
 
             if (!guess)
             {     
-                Asker = beenasked;
+                Asker = NextPlayer(Asker);
                 beenasked = NextPlayer(Asker);
             }
+
+            foreach (var p in Players)
+            {
+                p.Hand.Sort();
+            }
+
             ShowState();
         }
 
